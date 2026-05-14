@@ -217,5 +217,10 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
+.DS_Store
+
 # Local dataset folder
 data/
+
+# Local model folder
+models/
