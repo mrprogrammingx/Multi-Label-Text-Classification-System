@@ -22,8 +22,9 @@ How to use
 
 1. Create a virtual environment and install dependencies:
 
-	python -m venv .venv
-	source .venv/bin/activate
+```bash
+python -m venv .venv source .venv/bin/activate
+```
 
 ## Setup
 
