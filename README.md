@@ -24,7 +24,14 @@ How to use
 
 	python -m venv .venv
 	source .venv/bin/activate
-	pip install -r requirements.txt
+
+## Setup
+
+To install the required Python packages run:
+
+```
+pip install -r requirements.txt
+```
 
 2. Download the datasets from the links above and place the files in `data/raw/`.
 
