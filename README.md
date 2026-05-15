@@ -35,6 +35,14 @@ To install the required Python packages run:
 pip install -r requirements.txt
 ```
 
+## Run
+
+Run the main script with:
+
+```bash
+python -m src.main
+```
+
 2. Download the datasets from the links above and place the files in `data/raw/`.
 
 3. Run notebooks in `notebooks/` or scripts in `src/` to train/evaluate models.
