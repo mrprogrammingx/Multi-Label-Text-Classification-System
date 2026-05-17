@@ -28,7 +28,7 @@ Features
 - End-to-end pipeline: load → preprocess → train → evaluate → save
 - TF‑IDF vectorization and One‑vs‑Rest logistic regression baseline
 - Per‑label evaluation and simple error analysis
-- Save/load of model and preprocessing artifacts with joblib
+ - Save/load of trained model and TF‑IDF vectorizer with joblib (additional preprocessing artifacts can be saved similarly)
 
 Tech stack
 - Python 3.10+
@@ -54,10 +54,7 @@ Original download links (rename to the filenames above):
 
 Dataset format / schema
 - One `text` column (string) containing the comment.
-- Multiple binary label columns (each 0/1) indicating presence of a moderation label. Example columns: `toxic`, `spam`, `personal_attack`, `is_empty_after_clean`.
-
-- One `text` column (string) containing the comment.
-- Multiple binary label columns (each 0/1) indicating presence of a moderation label. Example columns: `toxic`, `spam`, `personal_attack`.
+- Multiple binary label columns (each 0/1) indicating presence of a moderation label. Example columns: `label_1`, `label_2`, `label_3`, `label_4`.
 
 Note: some datasets may include helper/debug columns (for example `is_empty_after_clean`) that are not moderation labels. These helper columns should be excluded from the label set when training/evaluating (the pipeline already ignores constant or helper columns).
 
