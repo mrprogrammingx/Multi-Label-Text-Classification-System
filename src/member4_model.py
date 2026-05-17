@@ -25,9 +25,11 @@ def train_model(X_train, y_train):
     """
     Train multi-label classifier.
     """
-    model = OneVsRestClassifier(LogisticRegression())
+    model = OneVsRestClassifier(LogisticRegression(solver='liblinear', max_iter=1000))
 
+    print("Member 4: model training started...")
     model.fit(X_train, y_train)
+    print("Member 4: training comlete.")
 
     return model
 
@@ -36,19 +38,24 @@ def save_artifacts(model, vectorizer):
     """
     Save trained model and vectorizer.
     """
-    # ensure target directory exists
     os.makedirs("models", exist_ok=True)
 
     joblib.dump(model, "models/model.joblib")
     joblib.dump(vectorizer, "models/vectorizer.joblib")
+    print("Member 4: model saved to folder models/")
 
 
-def predict(model, vectorizer, text):
+def predict(model, vectorizer, text_or_texts):
     """
-    Predict labels for raw text.
+    Predict labels and confidence scores for raw text(s).
     """
-    transformed_text = vectorizer.transform([text])
+    if isinstance(text_or_texts, str):
+        text_or_texts = [text_or_texts]
+
+    transformed_text = vectorizer.transform(text_or_texts)
+
+    predictions = model.predict(transformed_text)
 
     probabilities = model.predict_proba(transformed_text)
 
-    return probabilities
+    return predictions, probabilities
