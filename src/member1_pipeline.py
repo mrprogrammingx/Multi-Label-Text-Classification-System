@@ -59,10 +59,11 @@ def run_pipeline():
     # 5. DEFINE FEATURES/LABELS
     # =========================
     text_column = "text"
+    helper_columns = {"text", "is_empty_after_clean"}
 
     label_columns = [
         col for col in train_df.columns
-        if col != text_column
+        if col not in helper_columns
     ]
 
     X_train_text = train_df[text_column]
