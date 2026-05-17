@@ -21,7 +21,11 @@ from member4_model import (
     save_artifacts
 )
 
-from member5_evaluation import evaluate_model
+from member5_evaluation import (
+    evaluate_model,
+    create_error_analysis,
+    plot_f1_bar_chart
+)
 
 
 def run_pipeline():
@@ -101,11 +105,11 @@ def run_pipeline():
     # =========================
     # 9. EVALUATE
     # =========================
-    evaluate_model(
-        y_true=y_val,
-        y_pred=y_pred,
-        target_names=label_columns
-    )
+    metrics_df = evaluate_model(y_true=y_val, y_pred=y_pred, target_names=label_columns)
+
+    create_error_analysis(val_df, y_val, y_pred, target_names=label_columns, text_column=text_column)
+
+    plot_f1_bar_chart(metrics_df)
 
     # =========================
     # 10. SAVE ARTIFACTS
