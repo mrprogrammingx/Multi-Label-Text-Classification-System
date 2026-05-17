@@ -56,12 +56,19 @@ Dataset format / schema
 - One `text` column (string) containing the comment.
 - Multiple binary label columns (each 0/1) indicating presence of a moderation label. Example columns: `toxic`, `spam`, `personal_attack`, `is_empty_after_clean`.
 
+- One `text` column (string) containing the comment.
+- Multiple binary label columns (each 0/1) indicating presence of a moderation label. Example columns: `toxic`, `spam`, `personal_attack`.
+
+Note: some datasets may include helper/debug columns (for example `is_empty_after_clean`) that are not moderation labels. These helper columns should be excluded from the label set when training/evaluating (the pipeline already ignores constant or helper columns).
+
 Example CSV header (comma-separated):
 
 ```
-text,toxic,spam,personal_attack,is_empty_after_clean
+text,label_1,label_2,label_3,label_4
 "this is a comment",0,0,1,0
 ```
+
+Note: the supplied dataset uses generic column names `label_1`..`label_4` for the moderation labels. If you prefer, map these to human-readable names in your notebooks or evaluation reports (e.g. `label_1 -> toxic`).
 
 Setup (local)
 1. Create and activate a virtual environment:
@@ -82,8 +89,10 @@ How to run
 2. Run the pipeline (this executes load → preprocess → train → evaluate → save):
 
 ```bash
-python -m src.main
+python src/main.py
 ```
+
+Note: `python -m src.main` runs a module as a package. That form requires `src` to be an importable package (for example by adding `src/__init__.py`) and for the `src` parent directory to be on Python's path. The direct runner above (`python src/main.py`) works regardless and is the recommended command for this repository unless you intentionally convert `src` into a package.
 
 Notes
 - The pipeline will detect and ignore any label columns that are constant in the training set (no variance). These cannot be learned by the model and are skipped with a warning.
