@@ -50,7 +50,7 @@ def run_pipeline():
     # =========================
     train_df = preprocess_dataframe(train_df)
     val_df = preprocess_dataframe(val_df)
-
+  
     # =========================
     # 5. DEFINE FEATURES/LABELS
     # =========================
@@ -66,7 +66,18 @@ def run_pipeline():
 
     X_val_text = val_df[text_column]
     y_val = val_df[label_columns]
-
+    
+    # Remove any label columns that are constant in the training set
+    # (e.g. all 0 or all 1). These cause warnings from scikit-learn
+    # because the classifier cannot learn from a label with no variation.
+    constant_labels = [c for c in label_columns if y_train[c].nunique() <= 1]
+    if constant_labels:
+        print(f"Warning: removing constant label columns (same value in all training samples): {constant_labels}")
+        # keep only non-constant labels
+        label_columns = [c for c in label_columns if c not in constant_labels]
+        y_train = y_train[label_columns]
+        y_val = y_val[label_columns]
+    
     # =========================
     # 6. TF-IDF VECTORIZATION
     # =========================
@@ -74,12 +85,14 @@ def run_pipeline():
 
     X_train = vectorizer.fit_transform(X_train_text)
     X_val = vectorizer.transform(X_val_text)
-
+    
     # =========================
     # 7. TRAIN MODEL
     # =========================
     model = train_model(X_train, y_train)
 
+    # print("Cleaning text:", train_df["text"].iloc[0])
+    # exit(0)
     # =========================
     # 8. PREDICT
     # =========================
